@@ -23,6 +23,14 @@ const ordersSchema = new mongoose.Schema({
             direccion: { type: String },
             tel: {type:Number}
         }
+    },
+    entregado: {
+        type:Boolean,
+        default:false
+    },
+    rider:{
+        type:String,
+        default:'libre'
     }
 })
 

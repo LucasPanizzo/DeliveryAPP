@@ -25,4 +25,15 @@ router.post('/',async (req,res)=>{
     res.send(newOrder)
 })
 
+router.get('/',async (req,res)=>{
+    const ordersList = await inst.getAllOrders()
+    res.send(ordersList)
+})
+
+router.post('/deliveryOrder/:orderID',async (req,res)=>{
+    const orderID = req.params.orderID 
+    const deliveredOrder = await inst.deliveredOrder(orderID)
+    res.send('Pedido entregado correctamente')
+})
+
 export default router
