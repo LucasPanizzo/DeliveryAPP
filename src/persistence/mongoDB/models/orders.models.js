@@ -8,7 +8,6 @@ const ordersSchema = new mongoose.Schema({
                 },
                 quantity:Number  
             }
-
     ],
     fecha: {
         type:String
@@ -17,12 +16,9 @@ const ordersSchema = new mongoose.Schema({
         type:String
     },
     client:{        
-        type: 
-        {
             nombre: { type: String },
             direccion: { type: String },
             tel: {type:Number}
-        }
     },
     entregado: {
         type:Boolean,

@@ -2,8 +2,12 @@ import express from "express";
 import { __dirname } from "./utils.js";
 import session from "express-session";
 import MongoStore from 'connect-mongo'
-import './mongoDB/dbConfig.js'
-import orders from './orders.router.js'
+import passport from "passport";
+import './persistence/mongoDB/dbConfig.js'
+import './passport/passportStrategies.js'
+import orders from './routers/orders.router.js'
+import users from './routers/users.router.js'
+import riders from './routers/riders.router.js'
 
 // Declarations
 const app = express()
@@ -28,8 +32,10 @@ app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
-app.get('/',(req,res)=>{
-    console.log('yes');
-})
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/api/orders',orders)
+app.use('/api/users',users)
+app.use('/api/riders',riders)

@@ -1,4 +1,4 @@
-import { ordersModels } from "./mongoDB/models/orders.models.js";
+import { ordersModels } from "../mongoDB/models/orders.models.js";
 
 export default class orderManager {
     async createOrder(products, client, local) {
@@ -49,6 +49,16 @@ export default class orderManager {
             return updatedOrder
         } catch (error) {
             
+        }
+    }
+    async assignOrder(orderID,rider){
+        try {
+            const riderMail = rider.email
+            const actualizacion = {rider:riderMail}
+            const assignedRider = await this.updateOrder(orderID,actualizacion)
+            return assignedRider
+        } catch (error) {
+            console.log(error);
         }
     }
 }
