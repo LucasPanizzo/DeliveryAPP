@@ -6,13 +6,8 @@ export default class cartManager {
         try {
             const cartsList = await cartsModels.find({}).lean()
             return cartsList
-        } catch{
-            logger.error(ErrorsMessage.CART_EMPTYLIST_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_EMPTYLIST_CAUSE,
-                message: ErrorsMessage.CART_EMPTYLIST_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Trae un cart en especifico mediante el ID
@@ -20,13 +15,8 @@ export default class cartManager {
         try {
             const cart = await cartsModels.findById(id)
             return cart
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Trae el carrito y pasa por el .pre de models para usar populate
@@ -34,13 +24,8 @@ export default class cartManager {
         try {
             const cart = await cartsModels.find({ _id: id }).lean()
             return cart 
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            }); 
+        } catch (error){
+            console.log(error);
         }
     }
     // Crea un cart con el modelo designado
@@ -48,13 +33,8 @@ export default class cartManager {
         try {
             const newCart = await cartsModels.create({})
             return newCart
-        } catch{
-            logger.error(ErrorsMessage.CART_ADD_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_ADD_CAUSE,
-                message: ErrorsMessage.CART_ADD_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Devuelve un producto especifico dentro de un cart especifico
@@ -65,13 +45,8 @@ export default class cartManager {
             const productExists = productsArray.find((el) => el.productId.toHexString() === idProduct)
             // Busca el producto existente dentro del array. La verificación de la existencia del producto se hace desde el controller, antes de pasar por el router.
             return productExists
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Agrega un producto al carrito
@@ -97,28 +72,13 @@ export default class cartManager {
                         return cart
                     }
                 } else{
-                    logger.warn(ErrorsMessage.AUTH_INVALIDROL_ERROR);
-                    throw CustomError.createCustomError({
-                      name: ErrorsName.SESSION_ERROR,
-                      cause: ErrorsCause.AUTH_INVALIDROL_CAUSE,
-                      message: ErrorsMessage.AUTH_INVALIDROL_ERROR
-                    });
+                    console.log('error: invalid rol');
                 }
             } else{
-                logger.warn(ErrorsMessage.CART_WRONGID_ERROR)
-                throw CustomError.createCustomError({
-                    name: ErrorsName.CART_ERROR,
-                    cause: ErrorsCause.CART_WRONGID_CAUSE,
-                    message: ErrorsMessage.CART_WRONGID_ERROR
-                });
+                console.log('error: error de id');
             }
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Elimina un producto de un carrito especificos
@@ -137,20 +97,10 @@ export default class cartManager {
                     return undefined
                 }
             } else{
-                logger.warn(ErrorsMessage.CART_WRONGID_ERROR)
-                throw CustomError.createCustomError({
-                    name: ErrorsName.CART_ERROR,
-                    cause: ErrorsCause.CART_WRONGID_CAUSE,
-                    message: ErrorsMessage.CART_WRONGID_ERROR
-                }); 
+                console.log('error: error de id');
             }
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Cambia la propiedad quantity de un producto especifico
@@ -162,20 +112,10 @@ export default class cartManager {
                 const updatedCartProduct = await cartsModels.findOneAndUpdate(filter, update, { new: true });
                 return updatedCartProduct
             } else {
-                logger.warn(ErrorsMessage.CART_WRONGQUANTITY_ERROR)
-                throw CustomError.createCustomError({
-                    name: ErrorsName.CART_ERROR,
-                    cause: ErrorsCause.CART_WRONGQUANTITY_CAUSE,
-                    message: ErrorsMessage.CART_WRONGQUANTITY_ERROR
-                }); 
+                console.log('error: cantidad incorrecta');
             }
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Elimina todos los productos dentro del cart
@@ -185,13 +125,8 @@ export default class cartManager {
             cart.products = []
             await cart.save()
             return cart
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
     }
     // Reemplaza los productos existentes de un cart, por los que le lleguen de propiedad en forma de array
@@ -206,20 +141,10 @@ export default class cartManager {
                 await cart.save()
                 return cart
             } else {
-                logger.warn(ErrorsMessage.CART_EMPTYFIELD_ERROR)
-                throw CustomError.createCustomError({
-                    name: ErrorsName.CART_ERROR,
-                    cause: ErrorsCause.CART_EMPTYFIELD_CAUSE,
-                    message: ErrorsMessage.CART_EMPTYFIELD_ERROR
-                });
+                console.log('error: no se encontraron productos');
             }
-        } catch{
-            logger.error(ErrorsMessage.CART_WRONGID_ERROR)
-            throw CustomError.createCustomError({
-                name: ErrorsName.CART_ERROR,
-                cause: ErrorsCause.CART_WRONGID_CAUSE,
-                message: ErrorsMessage.CART_WRONGID_ERROR
-            });
+        } catch (error){
+            console.log(error);
         }
-    }
+    } 
 }
